@@ -1,25 +1,24 @@
-/* eslint-disable object-curly-spacing */
 'use strict';
 
 const data = [
 	{
-		name: 'Иван',
-		surname: 'Петров',
+		name: 'Ivan',
+		surname: 'Petrov',
 		phone: '+79514545454',
 	},
 	{
-		name: 'Костя',
-		surname: 'Семёнов',
+		name: 'Konstantin',
+		surname: 'Semyonov',
 		phone: '+79999999999',
 	},
 	{
-		name: 'Семён',
-		surname: 'Иванов',
+		name: 'Semyon',
+		surname: 'Ivanov',
 		phone: '+79800252525',
 	},
 	{
-		name: 'Мария',
-		surname: 'Попова',
+		name: 'Maria',
+		surname: 'Popova',
 		phone: '+79876543210',
 	},
 ];
@@ -46,7 +45,7 @@ const data = [
 		const h1 = document.createElement('h1');
 
 		h1.classList.add('logo');
-		h1.textContent = `Телефонный справочник. ${title}`;
+		h1.textContent = `${title}'s phonebook`;
 		return h1;
 	};
 
@@ -65,11 +64,11 @@ const data = [
 
 		btnWrapper.classList.add('btn-wrapper');
 
-		const btns = params.map(({ className, type, text }) => {
+		const btns = params.map(({className, type, text}) => {
 			const button = document.createElement('button');
+			button.className = className;
 			button.type = type;
 			button.textContent = text;
-			button.className = className;
 			return button;
 		});
 
@@ -82,15 +81,15 @@ const data = [
 
 	const createTable = () => {
 		const table = document.createElement('table');
-
 		table.classList.add('table', 'table-striped');
+
 		const thead = document.createElement('thead');
 		thead.insertAdjacentHTML('beforeend', `
 			<tr>
-				<th class="delete">Удалить</th>
-				<th>Имя</th>
-				<th>Фамилия</th>
-				<th>Телефон</th>
+				<th class="delete">Delete</th>
+				<th>First name</th>
+				<th>Surname</th>
+				<th>Phone</th>
 			</tr>
 		`);
 
@@ -113,20 +112,20 @@ const data = [
 
 		form.insertAdjacentHTML('beforeend', `
 			<button class="close" type="button"></button>
-			<h2 class="form-title">Добавить контакт</h2>
+			<h2 class="form-title">Add contact</h2>
 			<div class="form-group">
-				<label class="form-label" for="name">Имя:</label>
+				<label class="form-label" for="name">First name:</label>
 				<input class="form-input" name="name" id="name" type="text" required>
 			</div>
 			<div class="form-group">
-				<label class="form-label" for="surname">Фамилия:</label>
+				<label class="form-label" for="surname">Surname:</label>
 				<input class="form-input" name="surname" id="surname"
 				type="text" required>
 			</div>
 			<div class="form-group">
-				<label class="form-label" for="phone">Телефон:</label>
+				<label class="form-label" for="phone">Phone:</label>
 				<input class="form-input" name="phone" id="phone"
-				type="number" required>
+				type="tel" required>
 			</div>
 		`);
 
@@ -134,59 +133,65 @@ const data = [
 			{
 				className: 'btn btn-primary mr-3',
 				type: 'submit',
-				text: 'Добавить',
+				text: 'Add',
 			},
 			{
 				className: 'btn btn-danger',
 				type: 'reset',
-				text: 'Отмена',
+				text: 'Cancel',
 			},
 		]);
 
 		form.append(...buttonGroup.btns);
 
 		overlay.append(form);
+
 		return {
 			overlay,
 			form,
 		};
 	};
 
-	// FOOTER
 	const createFooter = title => {
 		const footer = document.createElement('footer');
 		footer.classList.add('footer');
 
-		footer.textContent = `Все права защищены ©${title}`;
+		const footerContainer = createContainer();
+
+		footer.append(footerContainer);
+
+		footer.footerContainer = footerContainer;
+
+		const rights = document.createElement('span');
+
+		footerContainer.append(rights);
+
+		rights.textContent = `All rights reserved © ${title}`;
 
 		return footer;
 	};
-
 
 	const renderPhoneBook = (app, title) => {
 		const header = createHeader();
 		const logo = createLogo(title);
 		const main = createMain();
-
 		const buttonGroup = createButtonsGroup([
 			{
 				className: 'btn btn-primary mr-3',
 				type: 'button',
-				text: 'Добавить',
+				text: 'Add',
 			},
 			{
 				className: 'btn btn-danger',
 				type: 'button',
-				text: 'Удалить',
+				text: 'Delete',
 			},
 		]);
 
-		const table = createTable(); // и передаем в main.mainContainer
-
+		const table = createTable();
 		const form = createForm();
 
 		const footer = createFooter(title);
-
 
 		header.headerContainer.append(logo);
 
@@ -199,7 +204,7 @@ const data = [
 		};
 	};
 
-	const createRow = ({ name: firstName, surname, phone }) => {
+	const createRow = ({name: firstName, surname, phone}) => {
 		const tr = document.createElement('tr');
 		const tdDel = document.createElement('td');
 		tdDel.classList.add('delete');
@@ -236,9 +241,9 @@ const data = [
 		const app = document.querySelector(selectorApp);
 		const phoneBook = renderPhoneBook(app, title);
 
-
-		const { list } = phoneBook;
+		const {list} = phoneBook;
 		renderContacts(list, data);
+		// Functional
 	};
 
 	window.phoneBookInit = init;
