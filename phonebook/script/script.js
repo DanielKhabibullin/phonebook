@@ -87,8 +87,8 @@ const data = [
 		thead.insertAdjacentHTML('beforeend', `
 			<tr>
 				<th class="delete">Delete</th>
-				<th>First name</th>
-				<th>Surname</th>
+				<th class="firstname">First name</th>
+				<th class="surname">Surname</th>
 				<th>Phone</th>
 			</tr>
 		`);
@@ -136,7 +136,7 @@ const data = [
 				text: 'Add',
 			},
 			{
-				className: 'btn btn-danger',
+				className: 'btn btn-danger mr-3',
 				type: 'reset',
 				text: 'Cancel',
 			},
@@ -182,7 +182,7 @@ const data = [
 				text: 'Add',
 			},
 			{
-				className: 'btn btn-danger',
+				className: 'btn btn-danger mr-3',
 				type: 'button',
 				text: 'Delete',
 			},
@@ -202,6 +202,7 @@ const data = [
 			list: table.tbody,
 			logo,
 			btnAdd: buttonGroup.btns[0],
+			btnDel: buttonGroup.btns[1],
 			formOverlay: form.overlay,
 			form: form.form,
 		};
@@ -209,6 +210,7 @@ const data = [
 
 	const createRow = ({name: firstName, surname, phone}) => {
 		const tr = document.createElement('tr');
+		tr.classList.add('contact');
 		const tdDel = document.createElement('td');
 		tdDel.classList.add('delete');
 		const buttonDel = document.createElement('button');
@@ -240,7 +242,6 @@ const data = [
 		return tr;
 	};
 
-
 	const renderContacts = (elem, data) => {
 		const allRow = data.map(createRow);
 		elem.append(...allRow);
@@ -267,28 +268,86 @@ const data = [
 		const app = document.querySelector(selectorApp);
 		const phoneBook = renderPhoneBook(app, title);
 
-		const {list, logo, btnAdd, formOverlay, form} = phoneBook;
+		const {
+			list,
+			logo,
+			btnAdd,
+			formOverlay,
+			form,
+			btnDel,
+		} = phoneBook;
 
 		// Functional
 		const allRow = renderContacts(list, data);
 		hoverRow(allRow, logo);
-
 		// const objEvent = {
 		// handleEvent() {
 		// formOverlay.classList.add('is-visible');
 		// },
 		// };
+		const clearList = () => {
+			const contacts = document.querySelectorAll('.contact');
+			contacts.forEach(e => e.remove());
+		};
+
+		// const firstName = document.querySelector('.firstname');
+		// const surname = document.querySelector('.surname');
+		// const sortArrayName = (data) => {
+		// 	data.sort((prev, next) => {
+		// 		if (prev.name < next.name) return -1;
+		// 		if (prev.name > next.name) return 1;
+		// 		return 0;
+		// 	});
+		// 	return data;
+		// };
+
+		// const sortArraySurname = (data) => {
+		// 	data.sort((prev, next) => {
+		// 		if (prev.surname < next.surname) return -1;
+		// 		if (prev.surname > next.surname) return 1;
+		// 		return 0;
+		// 	});
+		// 	return data;
+		// };
+
+		// firstName.addEventListener('click', (e) => {
+		// 	const target = e.target;
+		// 	if (target.closest('.firstname')) {
+		// 		clearList();
+		// 		renderContacts(list, sortArrayName(data));
+		// 	}
+		// });
+
+		// surname.addEventListener('click', (e) => {
+		// 	const target = e.target;
+		// 	if (target.closest('.surname')) {
+		// 		clearList();
+		// 		renderContacts(list, sortArraySurname(data));
+		// 	}
+		// });
 
 		btnAdd.addEventListener('click', () => {
 			formOverlay.classList.add('is-visible');
 		});
 
-		form.addEventListener('click', e => {
-			e.stopPropagation(); // todo delegation
+		formOverlay.addEventListener('click', e => {
+			const target = e.target;
+			if (target === formOverlay || target.classList.contains('close')) {
+				formOverlay.classList.remove('is-visible');
+			}
 		});
 
-		formOverlay.addEventListener('click', () => {
-			formOverlay.classList.remove('is-visible');
+		btnDel.addEventListener('click', () => {
+			document.querySelectorAll('.delete').forEach(del => {
+				del.classList.toggle('is-visible');
+			});
+		});
+
+		list.addEventListener('click', e => {
+			const target = e.target;
+			if (target.closest('.del-icon')) {
+				target.closest('.contact').remove();
+			}
 		});
 	};
 
