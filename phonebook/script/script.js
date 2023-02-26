@@ -290,41 +290,41 @@ const data = [
 			contacts.forEach(e => e.remove());
 		};
 
-		// const firstName = document.querySelector('.firstname');
-		// const surname = document.querySelector('.surname');
-		// const sortArrayName = (data) => {
-		// 	data.sort((prev, next) => {
-		// 		if (prev.name < next.name) return -1;
-		// 		if (prev.name > next.name) return 1;
-		// 		return 0;
-		// 	});
-		// 	return data;
-		// };
+		const firstName = document.querySelector('.firstname');
+		const surname = document.querySelector('.surname');
+		const sortArrayName = (data) => {
+			data.sort((prev, next) => {
+				if (prev.name < next.name) return -1;
+				if (prev.name > next.name) return 1;
+				return 0;
+			});
+			return data;
+		};
 
-		// const sortArraySurname = (data) => {
-		// 	data.sort((prev, next) => {
-		// 		if (prev.surname < next.surname) return -1;
-		// 		if (prev.surname > next.surname) return 1;
-		// 		return 0;
-		// 	});
-		// 	return data;
-		// };
+		const sortArraySurname = (data) => {
+			data.sort((prev, next) => {
+				if (prev.surname < next.surname) return -1;
+				if (prev.surname > next.surname) return 1;
+				return 0;
+			});
+			return data;
+		};
 
-		// firstName.addEventListener('click', (e) => {
-		// 	const target = e.target;
-		// 	if (target.closest('.firstname')) {
-		// 		clearList();
-		// 		renderContacts(list, sortArrayName(data));
-		// 	}
-		// });
+		firstName.addEventListener('click', (e) => {
+			const target = e.target;
+			if (target.closest('.firstname')) {
+				clearList();
+				renderContacts(list, sortArrayName(data));
+			}
+		});
 
-		// surname.addEventListener('click', (e) => {
-		// 	const target = e.target;
-		// 	if (target.closest('.surname')) {
-		// 		clearList();
-		// 		renderContacts(list, sortArraySurname(data));
-		// 	}
-		// });
+		surname.addEventListener('click', (e) => {
+			const target = e.target;
+			if (target.closest('.surname')) {
+				clearList();
+				renderContacts(list, sortArraySurname(data));
+			}
+		});
 
 		btnAdd.addEventListener('click', () => {
 			formOverlay.classList.add('is-visible');
