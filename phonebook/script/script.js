@@ -350,19 +350,10 @@ const data = [
 
 		const firstName = document.querySelector('.firstname');
 		const surname = document.querySelector('.surname');
-		const sortArrayName = (data) => {
+		const sortArray = (data, field) => {
 			data.sort((prev, next) => {
-				if (prev.name < next.name) return -1;
-				if (prev.name > next.name) return 1;
-				return 0;
-			});
-			return data;
-		};
-
-		const sortArraySurname = (data) => {
-			data.sort((prev, next) => {
-				if (prev.surname < next.surname) return -1;
-				if (prev.surname > next.surname) return 1;
+				if (prev[field] < next[field]) return -1;
+				if (prev[field] > next[field]) return 1;
 				return 0;
 			});
 			return data;
@@ -372,7 +363,7 @@ const data = [
 			const target = e.target;
 			if (target.closest('.firstname')) {
 				clearList();
-				renderContacts(list, sortArrayName(data));
+				renderContacts(list, sortArray(data, 'name'));
 			}
 		});
 
@@ -380,7 +371,7 @@ const data = [
 			const target = e.target;
 			if (target.closest('.surname')) {
 				clearList();
-				renderContacts(list, sortArraySurname(data));
+				renderContacts(list, sortArray(data, 'surname'));
 			}
 		});
 	};
