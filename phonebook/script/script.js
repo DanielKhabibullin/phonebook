@@ -221,21 +221,6 @@
 
 	const getStorage = key => JSON.parse(localStorage.getItem(key)) || [];
 
-	// const getStorage = (key) => Object.entries(localStorage)
-	// 	.reduce((acc, [key, value]) => {
-	// 		let newValue;
-	// 		try {
-	// 			newValue = JSON.parse(value);
-	// 		} catch {
-	// 			newValue = value;
-	// 		}
-	// 		return {
-	// 			...acc,
-	// 			[key]: newValue,
-	// 		};
-	// 	},
-	// 	{});
-
 	const setStorage = (key, obj) => {
 		const data = getStorage('key');
 		data.push(obj);
@@ -388,11 +373,4 @@
 	};
 	window.phoneBookInit = init;
 }
-// Необходимо добавлять контакты в localStorage, из js удалить их
-// Для работы с localStorage написать три функции
-// 1) getStorage которая получает в виде аргумента ключ и по нему запрашивает данные из localStorage и возвращает их, если их нет то возвращает пустой массив
-// 2) setStorage получает ключ и объект в виде аргументов и дописывает данные в localStorage
-// для этого с помощью getStorage необходимо данные получить, дописать объект в массив и отправить после этого данные в localStorage
-// 3) removeStorage получает в виде аргумента номер телефона, и удаляет контакт из localStorage, с логикой необходимо разобраться самостоятельно!
-// Применить функции там где это необходимо
-// Проверить весь функционал, после перезагрузки страницы, данные должны оставаться в таблице
+
