@@ -1,33 +1,5 @@
 'use strict';
-
-const data = [
-	{
-		name: 'Ivan',
-		surname: 'Petrov',
-		phone: '+79514545454',
-	},
-	{
-		name: 'Konstantin',
-		surname: 'Semyonov',
-		phone: '+79999999999',
-	},
-	{
-		name: 'Semyon',
-		surname: 'Ivanov',
-		phone: '+79800252525',
-	},
-	{
-		name: 'Maria',
-		surname: 'Popova',
-		phone: '+79876543210',
-	},
-];
 {
-	const addContactData = contact => {
-		data.push(contact);
-		console.log('data: ', data);
-	};
-
 	const createContainer = () => {
 		const container = document.createElement('div');
 		container.classList.add('container');
@@ -247,23 +219,57 @@ const data = [
 		return tr;
 	};
 
-	const renderContacts = (elem, data) => {
-		const allRow = data.map(createRow);
+	const getStorage = key => JSON.parse(localStorage.getItem(key)) || [];
+
+	// const getStorage = (key) => Object.entries(localStorage)
+	// 	.reduce((acc, [key, value]) => {
+	// 		let newValue;
+	// 		try {
+	// 			newValue = JSON.parse(value);
+	// 		} catch {
+	// 			newValue = value;
+	// 		}
+	// 		return {
+	// 			...acc,
+	// 			[key]: newValue,
+	// 		};
+	// 	},
+	// 	{});
+
+	const setStorage = (key, obj) => {
+		const data = getStorage('key');
+		data.push(obj);
+		const contact = JSON.stringify(data);
+		localStorage.setItem('key', contact);
+	};
+
+	const removeStorage = (phone) => {
+		const data = getStorage('key');
+		data.forEach((obj, index) => {
+			if (obj.phone === phone) {
+				data.splice(index, 1);
+			}
+		});
+		localStorage.setItem('key', JSON.stringify(data, null, 2));
+	};
+
+	const renderContacts = elem => {
+		const allRow = getStorage('key').map(createRow);
 		elem.append(...allRow);
 		return allRow;
 	};
 
-	const hoverRow = (allRow, logo) => {
+	const hoverRow = () => {
+		const allRow = document.querySelectorAll('.contact');
+		const logo = document.querySelector('.logo');
 		const text = logo.textContent;
 		allRow.forEach(contact => {
 			contact.addEventListener('mouseenter', () => {
-				// console.log('mouseEnter', contact);
 				logo.textContent = contact.phoneLink.textContent;
 			});
 		});
 		allRow.forEach(contact => {
 			contact.addEventListener('mouseleave', () => {
-				// console.log('mouseEnter', contact);
 				logo.textContent = text;
 			});
 		});
@@ -301,13 +307,17 @@ const data = [
 		list.addEventListener('click', e => {
 			const target = e.target;
 			if (target.closest('.del-icon')) {
+				const phone = target.closest('.contact')
+					.querySelector('a').textContent;
+				removeStorage(phone);
 				target.closest('.contact').remove();
 			}
 		});
 	};
 
-	const addContactPage = (contact, list) => {
-		list.append(createRow(contact));
+	const addContactPage = (obj, list) => {
+		list.append(createRow(obj));
+		setStorage('key', obj);
 	};
 
 	const formControl = (form, list, closeModal) => {
@@ -315,9 +325,8 @@ const data = [
 			e.preventDefault();
 			const formData = new FormData(e.target);
 			const newContact = Object.fromEntries(formData);
-			console.log('newContact: ', newContact);
 			addContactPage(newContact, list);
-			addContactData(newContact);
+			hoverRow();
 			form.reset();
 			closeModal();
 		});
@@ -328,7 +337,6 @@ const data = [
 
 		const {
 			list,
-			logo,
 			btnAdd,
 			formOverlay,
 			form,
@@ -336,13 +344,13 @@ const data = [
 		} = renderPhoneBook(app, title);
 
 		// Functional
-		const allRow = renderContacts(list, data);
+		renderContacts(list);
 		const {closeModal} = modalControl(btnAdd, formOverlay);
 
-		hoverRow(allRow, logo);
+
 		deleteControl(btnDel, list);
 		formControl(form, list, closeModal);
-
+		hoverRow();
 		const clearList = () => {
 			const contacts = document.querySelectorAll('.contact');
 			contacts.forEach(e => e.remove());
@@ -360,6 +368,8 @@ const data = [
 		};
 
 		firstName.addEventListener('click', (e) => {
+			const data = getStorage('key');
+			console.log('data: ', data);
 			const target = e.target;
 			if (target.closest('.firstname')) {
 				clearList();
@@ -368,6 +378,7 @@ const data = [
 		});
 
 		surname.addEventListener('click', (e) => {
+			const data = getStorage('key');
 			const target = e.target;
 			if (target.closest('.surname')) {
 				clearList();
@@ -377,3 +388,11 @@ const data = [
 	};
 	window.phoneBookInit = init;
 }
+// Необходимо добавлять контакты в localStorage, из js удалить их
+// Для работы с localStorage написать три функции
+// 1) getStorage которая получает в виде аргумента ключ и по нему запрашивает данные из localStorage и возвращает их, если их нет то возвращает пустой массив
+// 2) setStorage получает ключ и объект в виде аргументов и дописывает данные в localStorage
+// для этого с помощью getStorage необходимо данные получить, дописать объект в массив и отправить после этого данные в localStorage
+// 3) removeStorage получает в виде аргумента номер телефона, и удаляет контакт из localStorage, с логикой необходимо разобраться самостоятельно!
+// Применить функции там где это необходимо
+// Проверить весь функционал, после перезагрузки страницы, данные должны оставаться в таблице
