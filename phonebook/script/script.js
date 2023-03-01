@@ -225,7 +225,7 @@
 		const data = getStorage('key');
 		data.push(obj);
 		const contact = JSON.stringify(data);
-		localStorage.setItem('key', contact);
+		localStorage.setItem(key, contact);
 	};
 
 	const removeStorage = (phone) => {
@@ -238,15 +238,13 @@
 		localStorage.setItem('key', JSON.stringify(data, null, 2));
 	};
 
-	const renderContacts = elem => {
-		const allRow = getStorage('key').map(createRow);
+	const renderContacts = (elem, data) => {
+		const allRow = data.map(createRow);
 		elem.append(...allRow);
 		return allRow;
 	};
 
-	const hoverRow = () => {
-		const allRow = document.querySelectorAll('.contact');
-		const logo = document.querySelector('.logo');
+	const hoverRow = (allRow, logo) => {
 		const text = logo.textContent;
 		allRow.forEach(contact => {
 			contact.addEventListener('mouseenter', () => {
@@ -311,7 +309,6 @@
 			const formData = new FormData(e.target);
 			const newContact = Object.fromEntries(formData);
 			addContactPage(newContact, list);
-			hoverRow();
 			form.reset();
 			closeModal();
 		});
@@ -323,24 +320,28 @@
 		const {
 			list,
 			btnAdd,
+			logo,
 			formOverlay,
 			form,
 			btnDel,
 		} = renderPhoneBook(app, title);
 
 		// Functional
-		renderContacts(list);
+		const data = getStorage('key');
+		console.log('data: ', data);
+		const allRow = renderContacts(list, data);
 		const {closeModal} = modalControl(btnAdd, formOverlay);
 
 
 		deleteControl(btnDel, list);
 		formControl(form, list, closeModal);
-		hoverRow();
+		hoverRow(allRow, logo);
 		const clearList = () => {
 			const contacts = document.querySelectorAll('.contact');
 			contacts.forEach(e => e.remove());
 		};
 
+new
 		const firstName = document.querySelector('.firstname');
 		const surname = document.querySelector('.surname');
 		const sortArray = (data, field) => {
@@ -349,12 +350,14 @@
 				if (prev[field] > next[field]) return 1;
 				return 0;
 			});
+			console.log('data: ', data);
+			hoverRow(allRow, logo);
+			// localStorage.removeItem('key');
+			// setStorage('key', data);
 			return data;
 		};
 
 		firstName.addEventListener('click', (e) => {
-			const data = getStorage('key');
-			console.log('data: ', data);
 			const target = e.target;
 			if (target.closest('.firstname')) {
 				clearList();
@@ -363,7 +366,6 @@
 		});
 
 		surname.addEventListener('click', (e) => {
-			const data = getStorage('key');
 			const target = e.target;
 			if (target.closest('.surname')) {
 				clearList();
