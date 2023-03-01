@@ -219,7 +219,8 @@
 		return tr;
 	};
 
-	const getStorage = key => JSON.parse(localStorage.getItem(key)) || [];
+	const getStorage = key => (localStorage.getItem(key) ?
+	JSON.parse(localStorage.getItem(key)) : []);
 
 	const setStorage = (key, obj) => {
 		const data = getStorage('key');
@@ -230,12 +231,13 @@
 
 	const removeStorage = (phone) => {
 		const data = getStorage('key');
-		data.forEach((obj, index) => {
-			if (obj.phone === phone) {
-				data.splice(index, 1);
-			}
-		});
-		localStorage.setItem('key', JSON.stringify(data));
+		// data.forEach((obj, index) => {
+		// 	if (obj.phone === phone) {
+		// 		data.splice(index, 1);
+		// 	}
+		// });
+		const newData = data.filter(item => item.phone !== phone);
+		localStorage.setItem('key', JSON.stringify(newData));
 	};
 
 	const renderContacts = (elem, data) => {
@@ -346,8 +348,8 @@
 		const surname = document.querySelector('.surname');
 		const sortArray = (data, field) => {
 			data.sort((prev, next) => {
-				if (prev[field] < next[field]) return -1;
-				if (prev[field] > next[field]) return 1;
+				if (prev[field].toLowerCase() < next[field].toLowerCase()) return -1;
+				if (prev[field].toLowerCase() > next[field].toLowerCase()) return 1;
 				return 0;
 			});
 			console.log('data: ', data);
