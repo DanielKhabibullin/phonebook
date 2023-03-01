@@ -327,9 +327,8 @@
 		} = renderPhoneBook(app, title);
 
 		// Functional
-		const data = getStorage('key');
-		console.log('data: ', data);
-		const allRow = renderContacts(list, data);
+
+		const allRow = renderContacts(list, getStorage('key'));
 		const {closeModal} = modalControl(btnAdd, formOverlay);
 
 
@@ -340,6 +339,7 @@
 			const contacts = document.querySelectorAll('.contact');
 			contacts.forEach(e => e.remove());
 		};
+
 
 
 		const firstName = document.querySelector('.firstname');
@@ -357,6 +357,8 @@
 		};
 
 		firstName.addEventListener('click', (e) => {
+			const data = getStorage('key');
+			console.log('data: ', data);
 			const target = e.target;
 			if (target.closest('.firstname')) {
 				clearList();
@@ -365,6 +367,8 @@
 		});
 
 		surname.addEventListener('click', (e) => {
+			const data = getStorage('key');
+			console.log('data: ', data);
 			const target = e.target;
 			if (target.closest('.surname')) {
 				clearList();
