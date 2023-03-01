@@ -235,7 +235,7 @@
 				data.splice(index, 1);
 			}
 		});
-		localStorage.setItem('key', JSON.stringify(data, null, 2));
+		localStorage.setItem('key', JSON.stringify(data));
 	};
 
 	const renderContacts = (elem, data) => {
@@ -341,7 +341,7 @@
 			contacts.forEach(e => e.remove());
 		};
 
-new
+
 		const firstName = document.querySelector('.firstname');
 		const surname = document.querySelector('.surname');
 		const sortArray = (data, field) => {
@@ -352,8 +352,7 @@ new
 			});
 			console.log('data: ', data);
 			hoverRow(allRow, logo);
-			// localStorage.removeItem('key');
-			// setStorage('key', data);
+			localStorage.setItem('key', JSON.stringify(data));
 			return data;
 		};
 
