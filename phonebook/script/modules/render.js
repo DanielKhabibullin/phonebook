@@ -1,5 +1,6 @@
 import {createButtonsGroup, createFooter, createForm, createHeader,
 	createLogo, createMain, createRow, createTable} from './createElements.js';
+import {getStorage} from './serviceStorage.js';
 
 export const renderPhoneBook = (app, title) => {
 	const header = createHeader();
@@ -38,8 +39,8 @@ export const renderPhoneBook = (app, title) => {
 	};
 };
 
-export const renderContacts = (elem, data) => {
-	const allRow = data.map(createRow);
+export const renderContacts = elem => {
+	const allRow = getStorage('key').map(createRow);
 	elem.append(...allRow);
 	return allRow;
 };

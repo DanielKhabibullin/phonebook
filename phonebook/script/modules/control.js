@@ -57,3 +57,24 @@ export const formControl = (form, list, closeModal) => {
 		closeModal();
 	});
 };
+
+export const hoverRow = (allRow, logo) => {
+	const text = logo.textContent;
+	allRow.forEach(contact => {
+		contact.addEventListener('mouseenter', () => {
+			logo.textContent = contact.phoneLink.textContent;
+		});
+	});
+	allRow.forEach(contact => {
+		contact.addEventListener('mouseleave', () => {
+			logo.textContent = text;
+		});
+	});
+};
+
+export const clearList = () => {
+	const contacts = document.querySelectorAll('.contact');
+	contacts.forEach(e => e.remove());
+};
+
+
