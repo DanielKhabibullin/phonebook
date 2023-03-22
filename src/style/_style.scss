@@ -1,76 +1,18 @@
-html {
-	position: relative;
-	box-sizing: border-box;
-}
-
-*,
-*::before,
-*::after {
-	box-sizing: inherit;
-}
+$mainColor: #3E5E93;
 
 body {
 	min-width: 420px;
-	min-height: 100vh;
-	font-family: Arial, sans-serif;
-}
-
-
-img, svg {
-	max-width: 100%;
-	max-height: 100%;
-	height: auto;
-}
-
-button {
-	padding: 0;
-	cursor: pointer;
-}
-
-a {
-	text-decoration: none;
-	color: inherit;
-}
-
-ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-
-h1, h2, h3, p, figure, fieldset {
-	margin: 0;
-}
-
-iframe {
-	border: none;
-}
-
-/*
-Hide accessibility elements
-*/
-.visually-hidden {
-	position: fixed;
-	transform: scale(0);
-}
-
-/* Container example
-If container 1180px then add 30px * 2 padding to max-width, 
-= 1240px
-*/
-
-.container {
-	max-width: 1240px;
-	padding: 0 30px;
-	margin: 0 auto;
+	padding-bottom: 50px;
+	font-family: Montserrat, sans-serif;
 }
 
 .header {
-	background-color: #3E5E93;
+	background-color: $mainColor;
 	color: #fff;
 	margin-bottom: 40px;
 	padding: 20px 0;
 	text-align: center;
+	box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 
 .logo {
@@ -79,14 +21,13 @@ If container 1180px then add 30px * 2 padding to max-width,
 	text-transform: uppercase;
 }
 
-@media (max-width: 720px) {
-	.logo {
-		font-size: 20px;
-	}
-}
-
 .delete {
 	display: none;
+
+	&.is-visible {
+		width: 10px;
+		display: table-cell;
+	}
 }
 
 .del-icon {
@@ -99,11 +40,10 @@ If container 1180px then add 30px * 2 padding to max-width,
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
-}
 
-.delete.is-visible {
-	width: 10px;
-	display: table-cell;
+	&:hover {
+		opacity: 0.7;
+	}
 }
 
 .btn-wrapper {
@@ -127,7 +67,6 @@ If container 1180px then add 30px * 2 padding to max-width,
 	z-index: 2;
 }
 
-
 .form-title {
 	margin-top: 0;
 	padding-bottom: 20px;
@@ -136,7 +75,6 @@ If container 1180px then add 30px * 2 padding to max-width,
 .form-label {
 	width: 80px;
 }
-
 
 .form-overlay {
 	background-color: rgba(0, 0, 0, 0.6);
@@ -151,16 +89,17 @@ If container 1180px then add 30px * 2 padding to max-width,
 	visibility: hidden;
 	width: 100%;
 	z-index: 1;
-}
 
-.form-overlay.is-visible {
-	opacity: 1;
-	visibility: visible;
-}
+	&.is-visible {
+		opacity: 1;
+		visibility: visible;
 
-.form-overlay.is-visible .form {
-	opacity: 1;
-	top: 40px;
+		.form {
+			opacity: 1;
+			top: 40px;
+		}
+	}
+
 }
 
 .close {
@@ -174,11 +113,10 @@ If container 1180px then add 30px * 2 padding to max-width,
 	background-repeat: no-repeat;
 	background-position: center;
 	background-image: url("../img/del.svg");
-}
 
-.del-icon:hover,
-.close:hover {
-	opacity: 0.7;
+	&:hover {
+		opacity: 0.7;
+	}
 }
 
 .footer {
@@ -187,7 +125,14 @@ If container 1180px then add 30px * 2 padding to max-width,
 	left: 0;
 	right: 0;
 	padding: 10px;
-	background-color: #3E5E93;
+	background-color: $mainColor;
 	color: #fff;
 	text-align: center;
+}
+
+@media (max-width: 720px) {
+	.logo {
+		font-size: 20px;
+		display: grid;
+	}
 }

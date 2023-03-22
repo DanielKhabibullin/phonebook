@@ -2,7 +2,7 @@ import './index.html';
 import './index.scss';
 import {deleteControl, formControl, modalControl} from './modules/control.js';
 import {renderContacts, renderPhoneBook} from './modules/render.js';
-import * as storage from './modules/serviceStorage.js';
+import {getStorage} from './modules/serviceStorage.js';
 
 const init = (selectorApp, title) => {
 	const hoverRow = (allRow, logo) => {
@@ -32,7 +32,7 @@ const init = (selectorApp, title) => {
 
 	// Functional
 
-	const allRow = renderContacts(list, storage.getStorage('key'));
+	const allRow = renderContacts(list, getStorage('key'));
 	const {closeModal} = modalControl(btnAdd, formOverlay);
 
 	deleteControl(btnDel, list);
@@ -57,7 +57,7 @@ const init = (selectorApp, title) => {
 	};
 
 	firstName.addEventListener('click', (e) => {
-		const data = storage.getStorage('key');
+		const data = getStorage('key');
 		const target = e.target;
 		if (target.closest('.firstname')) {
 			clearList();
@@ -66,7 +66,7 @@ const init = (selectorApp, title) => {
 	});
 
 	surname.addEventListener('click', (e) => {
-		const data = storage.getStorage('key');
+		const data = getStorage('key');
 		const target = e.target;
 		if (target.closest('.surname')) {
 			clearList();

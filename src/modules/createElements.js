@@ -1,3 +1,11 @@
+import image from '../img/icon.svg';
+
+export const createImageLogo = () => {
+	const img = document.createElement('img');
+	img.src = image;
+	return img;
+};
+
 export const createContainer = () => {
 	const container = document.createElement('div');
 	container.classList.add('container');
@@ -174,6 +182,7 @@ export const createRow = ({name: firstName, surname, phone}) => {
 	buttonRedact.classList.add('btn-success');
 	buttonRedact.style.borderRadius = '.25rem';
 	buttonRedact.style.marginTop = '.6rem';
+	buttonRedact.style.padding = '.375rem .75rem';
 
 	tr.append(tdDel, tdName, tdSurname, tdPhone, buttonRedact);
 
