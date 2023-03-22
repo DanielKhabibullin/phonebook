@@ -1,3 +1,5 @@
+import './index.html';
+import './index.scss';
 import {deleteControl, formControl, modalControl} from './modules/control.js';
 import {renderContacts, renderPhoneBook} from './modules/render.js';
 import * as storage from './modules/serviceStorage.js';
@@ -49,7 +51,6 @@ const init = (selectorApp, title) => {
 			if (prev[field].toLowerCase() > next[field].toLowerCase()) return 1;
 			return 0;
 		});
-		console.log('data: ', data);
 		hoverRow(allRow, logo);
 		localStorage.setItem('key', JSON.stringify(data));
 		return data;
@@ -57,7 +58,6 @@ const init = (selectorApp, title) => {
 
 	firstName.addEventListener('click', (e) => {
 		const data = storage.getStorage('key');
-		console.log('data: ', data);
 		const target = e.target;
 		if (target.closest('.firstname')) {
 			clearList();
@@ -67,7 +67,6 @@ const init = (selectorApp, title) => {
 
 	surname.addEventListener('click', (e) => {
 		const data = storage.getStorage('key');
-		console.log('data: ', data);
 		const target = e.target;
 		if (target.closest('.surname')) {
 			clearList();

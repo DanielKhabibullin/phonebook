@@ -53,6 +53,7 @@ export const formControl = (form, list, closeModal) => {
 		const formData = new FormData(e.target);
 		const newContact = Object.fromEntries(formData);
 		addContactPage(newContact, list);
+		console.log(list);
 		form.reset();
 		closeModal();
 	});

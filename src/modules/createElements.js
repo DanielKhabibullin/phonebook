@@ -179,7 +179,3 @@ export const createRow = ({name: firstName, surname, phone}) => {
 
 	return tr;
 };
-
-export default {
-	createRow,
-};
